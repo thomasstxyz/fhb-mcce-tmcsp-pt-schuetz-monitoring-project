@@ -1,0 +1,35 @@
+name: Build LaTeX document
+on: [push]
+jobs:
+  build_latex:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Set up Git repository
+        uses: actions/checkout@v2
+      - name: Compile LaTeX document
+        uses: dante-ev/latex-action@latest
+        with:
+          root_file: conference_101719.tex
+          working_directory: docu/
+          compiler: pdflatex
+          args: -interaction=nonstopmode -shell-escape
+      - name: run bibtex 
+        uses: dante-ev/latex-action@latest
+        with:
+          root_file: conference_101719.aux
+          working_directory: docu/
+          compiler: bibtex
+          args:
+      - name: Compile LaTeX document
+        uses: dante-ev/latex-action@latest
+        with:
+          root_file: conference_101719.tex
+          working_directory: docu/
+          compiler: pdflatex
+          args: -interaction=nonstopmode -shell-escape
+          
+      - name: upload pdf document
+        uses: actions/upload-artifact@v3
+        with:
+          name: conference_101719.pdf
+          path: docu/conference_101719.pdf
