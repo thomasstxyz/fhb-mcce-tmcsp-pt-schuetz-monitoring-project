@@ -15,3 +15,15 @@ Im Rahmen der Projektarbeit ist eine Lösung zum Monitoring einer Applikation mi
 - Code und Konfiguration ist ausreichend dokumentiert/kommentiert
 - Jede Gruppe verwendet weitgehend unterschiedliche Tools
 - Sämtliche Deliverables werden einer Plagiatsprüfung unterzogen, es wird vorausgesetzt dass die jeweiligen Konfigurationen von euch stammen
+
+## Deployment
+
+- Set the name of your EC2 key pair name
+
+Windows PowerShell:
+
+    $env:TF_VAR_ssh_key = "my_key_pair"
+
+Linux/MacOS:
+
+    export TF_VAR_ssh_key = "my_key_pair"
