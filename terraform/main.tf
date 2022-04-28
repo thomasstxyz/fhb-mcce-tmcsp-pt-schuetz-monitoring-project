@@ -14,7 +14,7 @@ variable ssh_key {
 
 resource "aws_instance" "kube-master" {
   ami = data.aws_ami.amazon-2.id
-  instance_type = "t3.micro"
+  instance_type = "t3.medium"
 
   vpc_security_group_ids = [
     aws_security_group.egress-all-all.id,
@@ -35,7 +35,7 @@ resource "aws_instance" "kube-master" {
 
 resource "aws_instance" "kube-worker" {
   ami = data.aws_ami.amazon-2.id
-  instance_type = "t3.micro"
+  instance_type = "t3.medium"
 
   count = 2
 
