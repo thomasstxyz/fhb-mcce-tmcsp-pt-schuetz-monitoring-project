@@ -27,3 +27,17 @@ Windows PowerShell:
 Linux/MacOS:
 
     export TF_VAR_ssh_key = "my_key_pair"
+
+- Apply Terraform
+
+    cd terraform
+    terraform apply
+
+This will create EC2 instances and write their public ip addresses into the file `ansible/inventory`.
+
+- Run Ansible Playbook
+
+    cd ansible
+    ansible-playbook -i inventory main.yml
+
+This will setup a k3s cluster.
