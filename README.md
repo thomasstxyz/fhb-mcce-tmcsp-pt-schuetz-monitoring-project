@@ -30,14 +30,18 @@ Linux/MacOS:
 
 - Apply Terraform
 
-    cd terraform
-    terraform apply
+```
+cd terraform
+terraform apply
+```
 
 This will create EC2 instances and write their public ip addresses into the file `ansible/inventory`.
 
 - Run Ansible Playbook
 
-    cd ansible
-    ansible-playbook -i inventory main.yml
+```
+cd ansible
+ansible-playbook -i inventory main.yml
+```
 
 This will setup a k3s cluster.
