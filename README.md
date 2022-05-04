@@ -26,7 +26,7 @@ Windows PowerShell:
 
 Linux/MacOS:
 
-    export TF_VAR_ssh_key = "my_key_pair"
+    export TF_VAR_ssh_key="my_key_pair"
 
 - Apply Terraform
 
