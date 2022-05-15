@@ -16,15 +16,39 @@ Im Rahmen der Projektarbeit ist eine Lösung zum Monitoring einer Applikation mi
 - Jede Gruppe verwendet weitgehend unterschiedliche Tools
 - Sämtliche Deliverables werden einer Plagiatsprüfung unterzogen, es wird vorausgesetzt dass die jeweiligen Konfigurationen von euch stammen
 
+## Development environment with Vagrant/Virtualbox
+
+Install [Oracle Virtualbox](https://www.virtualbox.org/wiki/Downloads) and
+[Hashicorp Vagrant](https://www.vagrantup.com/downloads) on your machine.
+
+Create your VM with Vagrant.
+
+    vagrant up
+
+Open a shell to your VM.
+
+    vagrant ssh
+
+Now, inside the VM, navigate to `/vagrant`, which is 
+where the current directory is mapped.
+
+    cd /vagrant
+
+Before continuing with the deployment in the next section, 
+setup your `~/.aws/credentials`
+and your private SSH key.
+
 ## Deployment
+
+### Terraform
 
 - Set the name of your EC2 key pair name
 
-Windows PowerShell:
+for Windows PowerShell:
 
     $env:TF_VAR_ssh_key = "my_key_pair"
 
-Linux/MacOS:
+for Linux/MacOS:
 
     export TF_VAR_ssh_key="my_key_pair"
 
@@ -37,11 +61,11 @@ terraform apply
 
 This will create EC2 instances and write their public ip addresses into the file `ansible/inventory`.
 
+### Ansible
+
 - Run Ansible Playbook
 
 ```
 cd ansible
 ansible-playbook -i inventory main.yml
 ```
-
-This will setup a k3s cluster.
