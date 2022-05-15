@@ -1,21 +1,25 @@
-kubectl label nodes <master_node> svccontroller.k3s.cattle.io/enablelb=true
 
-kubectl apply -f https://raw.githubusercontent.com/fhb-codelabs/sample-code-repo/master/manifests/podtato-kubectl.yaml
 
-# jaeger installation
-
-kubectl apply -f https://github.com/jetstack/cert-manager/releases/download/v1.6.3/cert-manager.yaml
-
-kubectl create namespace observability # <1>
-kubectl create -f https://github.com/jaegertracing/jaeger-operator/releases/download/v1.33.0/jaeger-operator.yaml -n observability # <2>
-
-# helm install
+<!-- ## helm
 
 curl -fsSL -o get_helm.sh https://raw.githubusercontent.com/helm/helm/master/scripts/get-helm-3
 chmod +x get_helm.sh
 ./get_helm.sh
 helm
 
+## ingress controller
+
+helm upgrade --install ingress-nginx ingress-nginx \
+  --repo https://kubernetes.github.io/ingress-nginx \
+  --namespace ingress-nginx --create-namespace
+ -->
+
+
+
+
+
+
+<!-- 
 # elasticsearch install
 
 helm repo add elastic https://helm.elastic.co
@@ -39,7 +43,6 @@ kubectl wait deploy --selector app.kubernetes.io/name=jaeger --for=condition=ava
 
 kubectl apply -f simplest.yaml
 
-
 # sample nginx deployment
 
 ```
@@ -58,3 +61,9 @@ kubectl get pods -o wide
 
 curl <cluster_ip_of_pod>
 ```
+# bla
+
+kubectl label nodes <master_node> svccontroller.k3s.cattle.io/enablelb=true
+
+kubectl apply -f https://raw.githubusercontent.com/fhb-codelabs/sample-code-repo/master/manifests/podtato-kubectl.yaml
+ -->
