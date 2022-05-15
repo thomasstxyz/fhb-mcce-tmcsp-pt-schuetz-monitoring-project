@@ -8,12 +8,26 @@ data "aws_ami" "amazon-2" {
   owners = ["amazon"]
 }
 
+data "aws_ami" "ubuntu-focal-x86_64" {
+  most_recent = true
+
+  filter {
+    name = "name"
+    values = ["ubuntu/images/hvm-ssd/ubuntu-focal-20.04-amd64-server-*"]
+  }
+  filter {
+    name   = "virtualization-type"
+    values = ["hvm"]
+  }
+  owners = ["099720109477"] # Canonical
+}
+
 variable ssh_key {
   default = "vockey"
 }
 
 resource "aws_instance" "kube-master" {
-  ami = data.aws_ami.amazon-2.id
+  ami = data.aws_ami.ubuntu-focal-x86_64.id
   instance_type = "t3.medium"
 
   vpc_security_group_ids = [
@@ -34,10 +48,10 @@ resource "aws_instance" "kube-master" {
 }
 
 resource "aws_instance" "kube-worker" {
-  ami = data.aws_ami.amazon-2.id
+  ami = data.aws_ami.ubuntu-focal-x86_64.id
   instance_type = "t3.medium"
 
-  count = 2
+  count = 1
 
   vpc_security_group_ids = [
     aws_security_group.egress-all-all.id,
