@@ -56,6 +56,7 @@ for Linux/MacOS:
 
 ```
 cd terraform
+terraform init
 terraform apply
 ```
 
@@ -67,6 +68,7 @@ This will create EC2 instances and write their public ip addresses into the file
 
 ```
 cd ansible
+ansible-galaxy install -r roles/requirements.yml
 ansible-playbook -i inventory main.yml
 ```
 
