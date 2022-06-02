@@ -2,11 +2,48 @@
 - hosts: all
   become: yes
 
+  pre_tasks:
+    # system update
+    - name: Run the equivalent of "apt-get update" as a separate step
+      apt:
+        update_cache: yes
+            
+    - name: Upgrade the OS (apt-get dist-upgrade)
+      apt:
+        upgrade: dist
+        
+    # Containerd installation
+    - name: Ensure br_netfilter is enabled.
+      modprobe:
+        name: br_netfilter
+        state: present
+    - name: Ensure overlay is enabled.
+      modprobe:
+        name: overlay
+        state: present
+
+    - name: Ensure ip forwarding is enabled.
+      lineinfile:
+        path: /etc/sysctl.conf
+        regexp: "{{ item.regexp }}"
+        line: "{{ item.line }}"
+      with_items:
+        - regexp: '^net.ipv4.ip_forward='
+          line: "net.ipv4.ip_forward=1"
+
+    - name: Ensure containerd is installed.
+      apt:
+        name: containerd
+
+    - name: Restart containerd
+      service:
+        name: containerd
+        state: restarted
+
   vars:
     kubernetes_allow_pods_on_master: true
 
   roles:
-    - docker
     - kubernetes
 
   tasks:
