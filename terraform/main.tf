@@ -51,7 +51,7 @@ resource "aws_instance" "kube-worker" {
   ami = data.aws_ami.ubuntu-focal-x86_64.id
   instance_type = "t3.medium"
 
-  count = 1
+  count = 2
 
   vpc_security_group_ids = [
     aws_security_group.egress-all-all.id,
@@ -68,6 +68,42 @@ resource "aws_instance" "kube-worker" {
   tags = {
     Name = "kube-worker-${count.index}"
   }
+}
+
+# ebs for kube-master
+resource "aws_volume_attachment" "ebs_att-0" {
+  device_name = "/dev/sdh"
+  volume_id   = aws_ebs_volume.ebs-0.id
+  instance_id = aws_instance.kube-master.id
+}
+
+resource "aws_ebs_volume" "ebs-0" {
+  availability_zone = "us-east-1d"
+  size              = 100
+}
+
+# ebs volume for kube-worker[0]
+resource "aws_volume_attachment" "ebs_att-1" {
+  device_name = "/dev/sdh"
+  volume_id   = aws_ebs_volume.ebs-1.id
+  instance_id = aws_instance.kube-worker[0].id
+}
+
+resource "aws_ebs_volume" "ebs-1" {
+  availability_zone = "us-east-1d"
+  size              = 100
+}
+
+# ebs volume for kube-worker[1]
+resource "aws_volume_attachment" "ebs_att-2" {
+  device_name = "/dev/sdh"
+  volume_id   = aws_ebs_volume.ebs-2.id
+  instance_id = aws_instance.kube-worker[1].id
+}
+
+resource "aws_ebs_volume" "ebs-2" {
+  availability_zone = "us-east-1d"
+  size              = 100
 }
 
 # generate inventory file for Ansible

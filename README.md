@@ -121,3 +121,46 @@ In this case, the port would be `31835`.
 
 Finally, access the Jaeger UI in your Browser at `http://<node_ip>:<node_port>`.
 
+.
+
+.
+
+.
+
+# ------- Work in Progress -------
+
+# Rook-Ceph Storage Cluster
+
+https://www.digitalocean.com/community/tutorials/how-to-set-up-a-ceph-cluster-within-kubernetes-using-rook
+
+```
+kubectl get storageclass
+kubectl patch storageclass rook-ceph-block -p '{"metadata": {"annotations":{"storageclass.kubernetes.io/is-default-class":"true"}}}'
+kubectl get storageclass
+```
+
+## ELK Stack
+
+Install Helm.
+
+```
+curl https://raw.githubusercontent.com/helm/helm/master/scripts/get-helm-3 > get_helm.sh
+chmod 700 get_helm.sh
+./get_helm.sh
+```
+
+Configure Helm.
+
+```
+helm repo add elastic https://helm.elastic.co
+helm repo update
+helm search hub elasticsearch
+```
+
+Install Elasticsearch.
+
+```
+helm install elasticsearch elastic/elasticsearch
+```
+
+**error**: Kubernetes complains about too few resources available (cpu, memory, ..., also disk taint,....)
