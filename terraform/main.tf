@@ -28,7 +28,8 @@ variable ssh_key {
 
 resource "aws_instance" "kube-master" {
   ami = data.aws_ami.ubuntu-focal-x86_64.id
-  instance_type = "t3.medium"
+  instance_type = "t3.large"
+  availability_zone = "us-east-1d"
 
   vpc_security_group_ids = [
     aws_security_group.egress-all-all.id,
@@ -42,6 +43,10 @@ resource "aws_instance" "kube-master" {
 
   key_name = "${var.ssh_key}"
 
+  root_block_device {
+    volume_size = 25
+  }
+
   tags = {
     Name = "kube-master"
   }
@@ -49,7 +54,8 @@ resource "aws_instance" "kube-master" {
 
 resource "aws_instance" "kube-worker" {
   ami = data.aws_ami.ubuntu-focal-x86_64.id
-  instance_type = "t3.medium"
+  instance_type = "t3.large"
+  availability_zone = "us-east-1d"
 
   count = 2
 
@@ -64,6 +70,10 @@ resource "aws_instance" "kube-worker" {
   user_data = templatefile("${path.module}/templates/init_kube-worker.tftpl", { KUBE_APISERVER_URL = aws_instance.kube-master.private_ip })
 
   key_name = "${var.ssh_key}"
+
+  root_block_device {
+    volume_size = 25
+  }
 
   tags = {
     Name = "kube-worker-${count.index}"
