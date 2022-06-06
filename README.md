@@ -170,6 +170,7 @@ Create the Jaeger operator.
 
 Create an example deployment.
 
+    cd -
     kubectl apply -f podtato-kubectl.yaml
 
 Create a jaeger instance in the namespace of the example deployment.
@@ -181,7 +182,7 @@ Expose Jaeger UI on a NodePort.
 We do not setup Ingress for this demo purpose.
 Therefore we expose the Jaeger UI on a NodePort.
 
-    kubectl -n podtato-kubectl edit service/simplest-query
+    $ kubectl -n podtato-kubectl edit service/simplest-query
 
 Change `ClusterIP` to `NodePort`.
 
